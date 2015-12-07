@@ -1,0 +1,166 @@
+<head>
+    <title>Names In A Hat</title>
+
+    <link rel="icon" sizes="16x16" href="/img/favicon.ico?v=2">
+</head>
+
+<body>
+
+</body>
+
+<template name="main">
+    <header>
+        {{> navigation}}
+        {{> loginButtons align="right"}}
+    </header>
+    <main>
+        {{#if currentUser}}
+            {{> yield}}
+        {{else}}
+            {{> unauthorized}}
+        {{/if}}
+    </main>
+</template>
+
+<template name="navigation">
+    <nav>
+        <a href="{{pathFor route='home'}}">Home</a>
+        {{#if currentUser}}
+        <a href="{{pathFor route='create'}}">Create a Hat</a>
+        <a href="{{pathFor route='manage'}}">Manage Your Hats</a>
+        {{/if}}
+    </nav>
+</template>
+
+<template name="home">
+    <h1>Names In A Hat</h1>
+
+    <p class="tagline">When Secret Santas Need To Cross State Lines</p>
+
+    {{#if hats}}
+        <h2>Your Gift Exchanges</h2>
+
+        <div class="nameGrid">
+        {{#each hats}}
+            {{> hatLink}}
+        {{/each}}
+        </div>
+    {{else}}
+        <h2>Looks like you don't have gift exchanges. Wanna make one?</h2>
+
+        <a href="{{pathFor route='create'}}" class="button">Create a Hat</a>
+    {{/if}}
+</template>
+
+<template name="hatLink">
+    <a href="/{{_id}}" class="button name">{{name}}</a>
+</template>
+
+<template name="hat">
+    <h1>{{name}}</h1>
+
+    <div class="nameGrid">
+        {{#each targets}}
+        <div class="name {{selected}}" id="{{target._id}}">{{target.profile.name}}</div>
+        {{/each}}
+    </div>
+
+    {{#if currentTarget}}
+        <p>You picked {{currentTarget.profile.name}} from the hat.</p>
+    {{else}}
+        <a class="button primary hatPick">Pick From The Hat</a>
+    {{/if}}
+</template>
+
+<template name="create">
+    <h1>Create a New Hat</h1>
+
+    <form class="createForm">
+        <label for="name">
+            Name for the Hat<br>
+            <input type="text" name="name" id="name" placeholder="Smith Family Christmas">
+        </label>
+        <br><br>
+
+        <label>Who Else Is Invited?</label>
+        {{#each createFormTargets}}
+            {{> createInput}}
+        {{/each}}
+
+        <br>
+        <a class="addTargets button inverse"> + </a>
+        {{#if deletableTargets}}
+        <a class="deleteTargets button inverse"> - </a>
+        {{/if}}
+        <br><br>
+        <p class="error">{{error}}</p>
+        <input type="submit" class="button" name="submit" value="Send the Invites">
+    </form>
+</template>
+
+<template name="createInput">
+    <br>
+    <input type="email" name="invite-{{index}}" id="invite-{{index}}">
+</template>
+
+<template name="manageList">
+    <h1>Manage Your Hats</h1>
+
+    {{#if hats}}
+        <ul>
+        {{#each hats}}
+            <li><a href="{{pathFor route='manage'}}/{{_id}}">{{name}}</a></li>
+        {{/each}}
+        </ul>
+    {{else}}
+        <p>You haven't created any Hats to manage.</p>
+        <a href="{{pathFor route='create'}}" class="button">Create a Hat</a>
+    {{/if}}
+</template>
+
+<template name="manageOne">
+    <h1>{{name}}</h1>
+
+    <ul>
+    {{#each targets}}
+        <li>
+            {{target.profile.name}}
+            {{#if showSantas}}
+                {{#if santa}}
+                    - {{santa}}
+                {{/if}}
+            {{/if}}
+        </li>
+    {{/each}}
+    </ul>
+
+    <a href="/{{_id}}" class="button shareLink">Share the Link</a>
+    {{#if showSantas}}
+    <a class="button hideSantas">Hide the Santas</a>
+    {{else}}
+    <a class="button showSantas">Show the Santas</a>
+    {{/if}}
+    <br>
+    <br>
+    <br>
+    <a class="button deleteHat">Delete This Hat</a>
+</template>
+
+<template name="unauthorized">
+    <h1>Welcome to Names In A Hat</h1>
+
+    <p>You need to sign in first. Click the button in the top right corner.</p>
+</template>
+
+<template name="profile">
+    <h1>Your Account</h1>
+
+    <form class="profileForm">
+        <label for="name">
+            Name
+            <input type="text" name="name" id="name" />
+        </label>
+
+        <input type="submit" class="button" value="Save" />
+    </form>
+</template>

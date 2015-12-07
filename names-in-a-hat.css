@@ -1,0 +1,235 @@
+/* CSS declarations go here */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: url('/img/bg.jpg') #cccccc no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 110%;
+    font-weight: 200;
+    line-height: 140%;
+    color: #ECECEC;
+}
+
+main {
+    width: 90vw;
+    min-height: 50vh;
+    margin: 0 auto;
+    margin-top: 15vh;
+    padding: 5vw;
+    background: rgba(25, 25, 26, 0.6);
+    text-align: center;
+}
+
+a, a:visited {
+    color: #ECECEC;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #DBDBDB;
+}
+
+h1, h2 {
+    font-weight: 200;
+}
+
+h2 {
+    border-bottom: 2px solid #ECECEC;
+    padding: 5px 10px;
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.tagline {
+    font-style: italic;
+    margin-bottom: 6vh;
+}
+
+.button, .button:visited, .login-button {
+    outline: none;
+    border: 2px solid #ECECEC;
+    background: #ECECEC;
+    color: rgb(25, 25, 26);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color ease 0.1s, background ease 0.1s;
+}
+
+.button.inverse {
+    background: transparent;
+    color: #ECECEC;
+}
+
+.button.primary {
+    background: #BD4C32;
+    color: #ECECEC;
+    border: 2px solid #BD4C32;
+}
+
+.button:hover {
+    background: transparent;
+    color: #ECECEC;
+}
+
+.button.inverse:hover {
+    background: #ECECEC;
+    color: rgb(25, 25, 26);
+}
+
+.button.primary:hover {
+    background: transparent;
+    color: #BD4C32;
+}
+
+header {
+    width: 90vw;
+    margin: 5vh auto 0;
+}
+
+nav {
+    float: left;
+    position: relative;
+    z-index: 10;
+}
+
+nav a, nav a:visited {
+    color: #ECECEC;
+    text-decoration: none;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid #ECECEC;
+    padding: 5px 10px;
+}
+
+nav a:hover {
+    background: rgba(25,25,26, 0.6);
+}
+
+nav a + a {
+    margin-left: 10px;
+}
+
+div#login-buttons {
+    text-align: right;
+    /*float: right;*/
+}
+
+div.login-link-and-dropdown-list {
+    position: relative;
+}
+
+a.login-link-text {
+    border: 2px solid #ECECEC;
+    background: #ECECEC;
+    color: rgb(25, 25, 26);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color ease 0.1s, background ease 0.1s;
+    cursor: pointer;
+    position: relative;
+
+}
+
+a.login-link-text:hover {
+    background: rgba(25, 25, 26, 0.6);
+    color: #ECECEC;
+}
+
+div.accounts-dialog {
+    background: rgba(25, 25, 26, 0.6);
+    margin: 10px 0;
+    padding: 5vw;
+}
+
+a.login-close-text {
+    text-decoration: none;
+    border-bottom: 2px solid #ECECEC;
+}
+
+div.login-form {
+    margin-top: 20px;
+    position: relative;
+}
+
+div.login-button {
+    display: inline-block;
+    margin: 5px 0 15px;
+    cursor: pointer;
+}
+
+div.additional-link-container {
+    margin: 5px 0;
+}
+
+div.additional-link-container a, div.additional-link-container a:visited {
+    text-decoration: none;
+    border-bottom: 2px solid #ECECEC;
+}
+
+input[type="email"], input[type="password"], input[type="text"], input[type="submit"] {
+    font-size: 100%;
+    margin: 5px 0;
+    border: 2px solid #ECECEC;
+}
+
+input.error {
+    border: 2px solid #BD4C32;
+}
+
+div.nameGrid {
+    margin: 5vh 0;
+}
+
+div.nameGrid:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+div.nameGrid div.name, div.nameGrid a.name {
+    display: block;
+    float: left;
+    width: 30%;
+    background: #ECECEC;
+    color: rgb(25, 25, 26);
+    margin: 10px 0;
+    padding: 5px 10px;
+}
+
+div.nameGrid div.name:nth-of-type(3n - 1) {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+div.nameGrid a.name {
+    float: none;
+    margin: 10px auto;
+}
+
+div.nameGrid a.name:hover {
+    background: transparent;
+    color: #ECECEC;
+}
+
+div.nameGrid div.name.selected {
+    background: #BD4C32;
+    color: #ECECEC;
+}
+
+a.hatPick {
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+}
+
+a.addTargets, a.deleteTargets {
+    display: inline-block;
+    width: 40px;
+    margin: 10px 5px;
+}
