@@ -233,3 +233,7 @@ a.addTargets, a.deleteTargets {
     width: 40px;
     margin: 10px 5px;
 }
+
+li.picked {
+    color: #BD4C32;
+}

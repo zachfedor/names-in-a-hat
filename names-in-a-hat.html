@@ -123,11 +123,11 @@
 
     <ul>
     {{#each targets}}
-        <li>
+        <li class="{{#if alreadyPicked}}picked{{/if}}">
             {{target.profile.name}}
             {{#if showSantas}}
                 {{#if santa}}
-                    - {{santa}}
+                    : {{target._id}} - {{santa}}
                 {{/if}}
             {{/if}}
         </li>

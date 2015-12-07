@@ -166,27 +166,31 @@ if (Meteor.isClient) {
     /******************
      * MANAGE ONE TEMPLATE
      */
-     Template.manageOne.helpers({
-         targets: function() {
-             return this.targets;
-         },
-         showSantas: function() {
-             return Session.get('showSantas');
-         }
-     });
+    Template.manageOne.helpers({
+        targets: function() {
+            Session.set('targets', this.targets);
+            return this.targets;
+        },
+        showSantas: function() {
+            return Session.get('showSantas');
+        },
+        alreadyPicked: function() {
+            return findSanta(this.target._id, Session.get('targets'));
+        }
+    });
 
-     Template.manageOne.events({
-         "click .deleteHat": function() {
-             Hats.remove(this._id);
-             Router.go('manage');
-         },
-         "click .showSantas": function() {
-             Session.set('showSantas', true);
-         },
-         "click .hideSantas": function() {
-             Session.set('showSantas', false);
-         }
-     });
+    Template.manageOne.events({
+        "click .deleteHat": function() {
+            Hats.remove(this._id);
+            Router.go('manage');
+        },
+        "click .showSantas": function() {
+            Session.set('showSantas', true);
+        },
+        "click .hideSantas": function() {
+            Session.set('showSantas', false);
+        }
+    });
 
     /******************
      * HAT TEMPLATE
@@ -248,22 +252,31 @@ if (Meteor.isServer) {
         });
     });
     Meteor.startup(function() {
+        var ids = [];
         if (Meteor.users.find().count() === 0) {
-            Accounts.createUser({ email: 'zachfedor@gmail.com', password: 'password', profile: { name: 'Zach' }});
-            Accounts.createUser({ email: 'emilylyfedor@gmail.com', password: 'password', profile: { name: 'Emily' }});
+            ids.push(Accounts.createUser({ email: 'b.fedor626@gmail.com', password: 'uLa7FLZR', profile: { name: 'Becca' }}));
+            ids.push(Accounts.createUser({ email: 'bphillip@fandm.edu', password: 'jGT3mGt3', profile: { name: 'Ben' }}));
+            ids.push(Accounts.createUser({ email: 'cathyphillips@comcast.net', password: 'C5UvNEQ5', profile: { name: 'Cathy' }}));
+            ids.push(Accounts.createUser({ email: 'cyfedor@gmail.com', password: 'JfUpE5Th', profile: { name: 'Cy' }}));
+            ids.push(Accounts.createUser({ email: 'dphillips@phillipsdipisa.com', password: 'QpSc93j6', profile: { name: 'Dan' }}));
+            ids.push(Accounts.createUser({ email: 'fedor720@verizon.net', password: 'NeeBrs5R', profile: { name: 'Deb' }}));
+            ids.push(Accounts.createUser({ email: 'emilylyfedor@gmail.com', password: '5Q4azPDc', profile: { name: 'Emily' }}));
+            ids.push(Accounts.createUser({ email: 'phijt-15@rhodes.edu', password: 'W26jmZdy', profile: { name: 'Jeremy' }}));
+            ids.push(Accounts.createUser({ email: 'poffyk@gmail.com', password: 'pFCh2G2g', profile: { name: 'Kathy' }}));
+            ids.push(Accounts.createUser({ email: 'kaitlynfedor@gmail.com', password: 'TzYXJ9j2', profile: { name: 'Katie' }}));
+            ids.push(Accounts.createUser({ email: 'poffy@comcast.net', password: 'HA6WgCFQ', profile: { name: 'Steve' }}));
+            ids.push(Accounts.createUser({ email: 'zachfedor@gmail.com', password: 'M1th4c4R', profile: { name: 'Zach' }}));
+        }
+        if (Hats.find().count() === 0) {
+            var targets = [];
+            for (var i = 0; i < ids.length; i++) {
+                var user = Meteor.users.findOne({ _id: ids[i] });
+                targets.push({ target: user, santa: null });
+            }
 
-            Accounts.createUser({ email: 'kaitlynfedor@gmail.com', password: 'password', profile: { name: 'Katie' }});
-            Accounts.createUser({ email: 'b.fedor626@gmail.com', password: 'password', profile: { name: 'Becca' }});
-            Accounts.createUser({ email: 'cyfedor@gmail.com', password: 'password', profile: { name: 'Cy' }});
-            Accounts.createUser({ email: 'fedor720@verizon.net', password: 'password', profile: { name: 'Deb' }});
+            // targets.sort(sortTargets);
 
-            Accounts.createUser({ email: 'poffy@comcast.net', password: 'password', profile: { name: 'Steve' }});
-            Accounts.createUser({ email: 'poffyk@gmail.com', password: 'password', profile: { name: 'Kathy' }});
-
-            Accounts.createUser({ email: 'dphillips@phillipsdipisa.com', password: 'password', profile: { name: 'Dan' }});
-            Accounts.createUser({ email: 'cathyphillips@comcast.net', password: 'password', profile: { name: 'Cathy' }});
-            Accounts.createUser({ email: 'phijt-15@rhodes.edu', password: 'password', profile: { name: 'Jeremy' }});
-            Accounts.createUser({ email: 'bphillip@fandm.edu', password: 'password', profile: { name: 'Ben' }});
+            Hats.insert({ created_by: ids[11], name: "Poffenberger Christmas 2015", targets: targets});
         }
     });
 
@@ -354,6 +367,24 @@ if (Meteor.isServer) {
 
 }
 
+// function sortTargets(a, b) {
+//     console.log("sorting!");
+//     if (a.target.profile.name < b.target.profile.name)
+//         return -1;
+//     if (a.target.profile.name < b.target.profile.name)
+//         return 1;
+//     return 0;
+// }
+function findSanta(id, array) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].santa === id) {
+            console.log(array[i]);
+            return array[i];
+        }
+    }
+    return false;
+}
+
 /******************
  * IRON ROUTING
  */
@@ -392,6 +423,7 @@ Router.route('/:_id', {
         var currentId = Meteor.userId();
         var hat = Hats.findOne({ _id: this.params._id, "targets.target._id": currentId });
         if (hat) {
+            // hat.targets.sort(sortTargets);
             return hat;
         } else {
             Router.go('/');
